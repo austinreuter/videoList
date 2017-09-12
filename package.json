@@ -1,19 +1,24 @@
 {
   "name": "movieList",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "version": "1.1.0",
+  "description": "Making vids with React and ES6",
+  "author": "danger danger",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "live-server --open=./SpecRunner.html --port=8081",
+    "start": "live-server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-latest": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "webpack": "^3.5.6"
+    "bootstrap": "^4.0.0-alpha.2",
+    "jquery": "^2.2.1",
+    "lodash": "^4.6.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0"
   }
 }

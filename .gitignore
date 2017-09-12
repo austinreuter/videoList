@@ -3,3 +3,10 @@
 
 ## NPM ##
 node_modules/
+
+## Compiled files ##
+compiled/
+
+##bundle##
+www/bundle.js
+
