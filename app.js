@@ -1,7 +1,7 @@
 window.movies = {
 
 } 
-window.movies.moviesList = [
+window.moviesList = [
   {title: 'Mean Girls'},
   {title: 'Hackers'},
   {title: 'The Grey'},
@@ -10,7 +10,7 @@ window.movies.moviesList = [
 ];
 window.helpers = {
 }
-window.helpers.objectifyValue: function(list) {
+window.helpers.objectifyValue = function(list) {
 	console.log('l')
 	var byValue = {};
 	/*list.forEach((movie) => {
@@ -25,24 +25,20 @@ class App extends React.Component {
   constructor() {
   	super();
   	this.state = {
-      movies: window.helpers.objectifyValue(window.movies.MoviesList),
+      movies: window.moviesList,
       title: ''
   	}
   }
 
   search(title) {
  
-    return this.state.movies[title]
-
-    //todo: make http request
-    /*$.ajax(()=> {
-    });*/
   }
 
   render() {
   	return(
   		<div>
   		<SearchBar />
+
   		<MovieList movies={this.state.movies}/>
   		</div>
     )
@@ -67,7 +63,8 @@ var SearchBar = (props) => {
 var MovieList = (props) => {
  	return(
  		<div className="list">
-       {props.movies.map((movie, key)=> <Movie key={key} movie={movie}/>)}
+      {console.log(props.movies)}
+      {props.movies.map((movie, key)=> <Movie key={key} movie={movie}/>)}
      </div>
    )
 }
