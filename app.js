@@ -1,7 +1,7 @@
 window.movies = {
 
 } 
-window.movies.moviesList = [
+window.moviesList = [
   {title: 'Mean Girls'},
   {title: 'Hackers'},
   {title: 'The Grey'},
@@ -10,39 +10,36 @@ window.movies.moviesList = [
 ];
 window.helpers = {
 }
-window.helpers.objectifyValue: function(list) {
-	console.log('l')
-	var byValue = {};
-	/*list.forEach((movie) => {
-		console.log(movie)
-    byValue[movie.title] = movie.title;
-	})*/
-	return byValue;
-} 
 
 
 class App extends React.Component {
   constructor() {
   	super();
   	this.state = {
-      movies: window.helpers.objectifyValue(window.movies.MoviesList),
+      movies: window.moviesList,
       title: ''
   	}
   }
 
   search(title) {
- 
-    return this.state.movies[title]
+    var movie = this.state.movies.filter((movie) => {
+      return movie.title.toLowerCase() === title.toLowerCase();
+    })
+    if (movie.length) {
+      this.state.movies = movie;
+      console.log(this.state)
+      this.render()
+    }
+  }
 
-    //todo: make http request
-    /*$.ajax(()=> {
-    });*/
+  select(value) {
+    this.state.title = value;
   }
 
   render() {
   	return(
   		<div>
-  		<SearchBar />
+  		<SearchBar selectVar={() => this.state.title} select={this.select.bind(this)} search={this.search.bind(this)}/>
   		<MovieList movies={this.state.movies}/>
   		</div>
     )
@@ -52,11 +49,11 @@ class App extends React.Component {
 var SearchBar = (props) => {
 
   return (
-  	<div>
+  	<div className="search-bar">
 
-      <input type="text" className="searchBar"/>
+      <input onKeyUp={(e)=>props.select(e.target.value)} type="text" className="searchBar"/>
       <span>
-        <button onClick={()=> props.search(/*todo: grab input text*/)} className="searchButton">
+        <button className="btn" onClick={()=> props.search(props.selectVar())} className="searchButton">
           Srch
         </button>
       </span>
