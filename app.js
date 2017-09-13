@@ -1,81 +1,65 @@
-window.movies = {
-
-} 
-window.moviesList = [
-  {title: 'Mean Girls'},
-  {title: 'Hackers'},
-  {title: 'The Grey'},
-  {title: 'Sunshine'},
-  {title: 'Ex Machina'},
-];
-window.helpers = {
-}
-window.helpers.objectifyValue = function(list) {
-	console.log('l')
-	var byValue = {};
-	/*list.forEach((movie) => {
-		console.log(movie)
-    byValue[movie.title] = movie.title;
-	})*/
-	return byValue;
-} 
-
-
 class App extends React.Component {
   constructor() {
   	super();
   	this.state = {
       movies: window.moviesList,
-      title: ''
+      title: '',
+      stack: []
   	}
   }
 
   search(title) {
- 
+    var isSubset = function(q, string) {
+      var r = new RegExp(`(?:${q})`, 'gi');
+      return !!string.match(r);
+    };
+
+    var movie = this.state.movies.filter((movie) => {
+      return isSubset(title, movie.title);
+    });
+    console.log('prevState:', this.state)
+    if (movie.length) {
+      var newStack = this.state.stack.slice();
+      newStack.push(this.state.movies.slice());
+      this.setState({'stack': newStack}, () => console.log(this.state.stack))
+      this.setState({'movies': movie});
+      // console.log(this.state)
+    }
+  }
+
+  select(value) {
+    this.state.title = value;
+  }
+
+  renderPrev() {
+    if (this.state.stack.length) {
+      var newState = this.state.stack.slice();
+      var prev = newState.pop();
+      console.log('newState: ', newState);
+      console.log('prev: ', prev);
+      this.setState ({'stack': newState});
+      this.setState({'movies': prev});
+    }
   }
 
   render() {
   	return(
   		<div>
-  		<SearchBar />
 
+  		<SearchBar selectVar={() => this.state.title} 
+        select={this.select.bind(this)} 
+        search={this.search.bind(this)}
+        renderPrev={this.renderPrev.bind(this)}
+      />
   		<MovieList movies={this.state.movies}/>
   		</div>
     )
   }
 }
 
-var SearchBar = (props) => {
-
-  return (
-  	<div>
-
-      <input type="text" className="searchBar"/>
-      <span>
-        <button onClick={()=> props.search(/*todo: grab input text*/)} className="searchButton">
-          Srch
-        </button>
-      </span>
-    </div>
-  )
-}
-
-var MovieList = (props) => {
- 	return(
- 		<div className="list">
-      {console.log(props.movies)}
-      {props.movies.map((movie, key)=> <Movie key={key} movie={movie}/>)}
-     </div>
-   )
-}
-
-var Movie = (props) => (
-  <div className="movie">
-    {props.movie.title}
-  </div>
-
-)
 
 
 
 ReactDOM.render( <App />, document.getElementById('app'))
+
+window.App = App;
