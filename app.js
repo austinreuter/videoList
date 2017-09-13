@@ -9,6 +9,10 @@ class App extends React.Component {
   }
 
   search(title) {
+    if (!title) {
+      this.setState({'movies': window.moviesList});
+      return;
+    }
     var isSubset = function(q, string) {
       var r = new RegExp(`(?:${q})`, 'gi');
       return !!string.match(r);
@@ -17,26 +21,26 @@ class App extends React.Component {
     var movie = this.state.movies.filter((movie) => {
       return isSubset(title, movie.title);
     });
-    console.log('prevState:', this.state)
     if (movie.length) {
       var newStack = this.state.stack.slice();
       newStack.push(this.state.movies.slice());
       this.setState({'stack': newStack}, () => console.log(this.state.stack))
       this.setState({'movies': movie});
-      // console.log(this.state)
     }
   }
 
-  select(value) {
-    this.state.title = value;
+  select(e) {
+    if (e.keyCode === 13) {
+      this.search(this.state.title);
+    }
+    this.state.title = e.target.value;
   }
 
   renderPrev() {
     if (this.state.stack.length) {
       var newState = this.state.stack.slice();
       var prev = newState.pop();
-      console.log('newState: ', newState);
-      console.log('prev: ', prev);
+
       this.setState ({'stack': newState});
       this.setState({'movies': prev});
     }

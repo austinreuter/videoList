@@ -3,7 +3,7 @@ var SearchBar = (props) => {
   return (
     <div className="search-bar">
 
-      <input onKeyUp={(e)=>props.select(e.target.value)} type="text" className="searchBar"/>
+      <input onKeyUp={(e)=>props.select(e)} type="text" className="searchBar"/>
       <span>
         <button className="searchButton" onClick={()=> props.search(props.selectVar())}>
           Srch
