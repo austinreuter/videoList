@@ -4,7 +4,8 @@ class App extends React.Component {
   	this.state = {
       movies: window.moviesList,
       title: '',
-      stack: []
+      stack: [],
+      vidImg: ''
   	}
   }
 
@@ -21,12 +22,28 @@ class App extends React.Component {
     var movie = this.state.movies.filter((movie) => {
       return isSubset(title, movie.title);
     });
+
     if (movie.length) {
       var newStack = this.state.stack.slice();
       newStack.push(this.state.movies.slice());
       this.setState({'stack': newStack}, () => console.log(this.state.stack))
       this.setState({'movies': movie});
     }
+
+    var options = {
+      key: '',
+      query: `${title} movie trailer` 
+    }
+    searchYouTube(options, (data) => {
+      console.log(options.q, data);
+      this.setState({'vidImg': data.items[0].snippet.thumbnails.default.url})
+    });
+    //api key, query on options obj
+  }
+
+  renderYouTube() {
+    console.log('vidimg', this.state.vidImg)
+    return this.state.vidImg;  
   }
 
   select(e) {
@@ -49,7 +66,7 @@ class App extends React.Component {
   render() {
   	return(
   		<div>
-
+      <img src={()=>this.renderYouTube()}>
   		<SearchBar selectVar={() => this.state.title} 
         select={this.select.bind(this)} 
         search={this.search.bind(this)}
